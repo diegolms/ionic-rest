@@ -14,12 +14,13 @@ import { Http, Headers,RequestOptions } from '@angular/http';
 export class AuthService {
 
   //AUTH_SERVER_ADDRESS:  string  =  'https://homologacao.medicinia.com.br/v1/users';
-  apiUrl = 'https://homologacao.medicinia.com.br/v1/users/';
+  apiUrl = 'https://api-homolog.medicinia.com.br/v1/users/';
   constructor(private http: HttpClient) { }
 
   login (data): Observable<any> {
-    console.log(data);
-    return this.http.post<any>(this.apiUrl + 'sign-in', data)
+    data = '{ "user": { "email":"'+data.email+'", "password": "'+data.password+'"}}';
+    
+    return this.http.post<any>(this.apiUrl + 'signin', data)
       .pipe(
         tap(_ => this.log('login')),
         catchError(this.handleError('login', []))

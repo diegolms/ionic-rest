@@ -28,8 +28,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
             const token = localStorage.getItem('token');
 
-            console.log("chamou");
-          
             if (token) {
               request = request.clone({
                 setHeaders: {
@@ -50,7 +48,7 @@ export class TokenInterceptor implements HttpInterceptor {
               headers: request.headers.set('Accept', 'application/json')
             });
 
-            console.log("chamou");
+            console.log(request);
           
             return next.handle(request).pipe(
               map((event: HttpEvent<any>) => {
