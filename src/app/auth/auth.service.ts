@@ -1,45 +1,57 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from  '@angular/common/http';
-import { tap } from  'rxjs/operators';
-import { Observable, BehaviorSubject } from  'rxjs';
+import { Observable, of } from  'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Storage } from  '@ionic/storage';
 import { User } from  './user';
 import { AuthResponse } from  './auth-response';
+import { Http, Headers,RequestOptions } from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  AUTH_SERVER_ADDRESS:  string  =  'https://homologacao.medicinia.com.br/v1/users';
-  authSubject  =  new  BehaviorSubject(false);
+  //AUTH_SERVER_ADDRESS:  string  =  'https://homologacao.medicinia.com.br/v1/users';
+  apiUrl = 'https://homologacao.medicinia.com.br/v1/users/';
+  constructor(private http: HttpClient) { }
 
-  constructor(private  httpClient:  HttpClient, private  storage:  Storage){}
-
-  login(user: User): Observable<AuthResponse> {
-    return this.httpClient.post('https://homologacao.medicinia.com.br/v1/users/sign-in', user).pipe(
-      tap(async (res: AuthResponse) => {
-
-        if (res.user) {
-          //await this.storage.set("ACCESS_TOKEN", res.user.access_token);
-          //await this.storage.set("EXPIRES_IN", res.user.expires_in);
-          //this.authSubject.next(true);
-          console.log(res.user);
-        }
-      })
-    );
+  login (data): Observable<any> {
+    console.log(data);
+    return this.http.post<any>(this.apiUrl + 'sign-in', data)
+      .pipe(
+        tap(_ => this.log('login')),
+        catchError(this.handleError('login', []))
+      );
   }
 
-  async logout() {
-    await this.storage.remove("ACCESS_TOKEN");
-    await this.storage.remove("EXPIRES_IN");
-    this.authSubject.next(false);
+  // logout (): Observable<any> {
+  //   return this.http.get<any>(this.apiUrl + 'signout')
+  //     .pipe(
+  //       tap(_ => this.log('logout')),
+  //       catchError(this.handleError('logout', []))
+  //     );
+  // }
+
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
-  isLoggedIn() {
-    return this.authSubject.asObservable();
+  private log(message: string) {
+    console.log(message);
   }
+
 
 
 }
