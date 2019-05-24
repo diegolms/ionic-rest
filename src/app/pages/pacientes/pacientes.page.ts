@@ -7,7 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PacientesPage implements OnInit {
 
-  constructor() {  }
+  pacientes: any;
+
+    constructor() {
+
+        this.pacientes = [
+            'Bread',
+            'Milk',
+            'Cheese',
+            'Snacks',
+            'Apples',
+            'Bananas',
+            'Peanut Butter',
+            'Chocolate',
+            'Avocada',
+            'Vegemite',
+            'Muffins',
+            'Paper towels'
+        ];
+
+    }
 
   ngOnInit() {
   }
