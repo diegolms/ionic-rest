@@ -27,13 +27,13 @@ export class AuthService {
       );
   }
 
-  // logout (): Observable<any> {
-  //   return this.http.get<any>(this.apiUrl + 'signout')
-  //     .pipe(
-  //       tap(_ => this.log('logout')),
-  //       catchError(this.handleError('logout', []))
-  //     );
-  // }
+  logout (): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'signout')
+      .pipe(
+        tap(_ => this.log('logout')),
+        catchError(this.handleError('logout', []))
+      );
+  }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
