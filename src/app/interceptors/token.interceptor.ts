@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import {AuthResponse} from '../auth/auth-response';
 
 
 import {
@@ -53,7 +54,8 @@ export class TokenInterceptor implements HttpInterceptor {
             return next.handle(request).pipe(
               map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                  console.log('event--->>>', event);
+                  console.log('event--->>>', event.body);
+                  
                 }
                 return event;
               }),

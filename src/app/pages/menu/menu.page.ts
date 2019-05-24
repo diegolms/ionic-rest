@@ -35,26 +35,9 @@ export class MenuPage implements OnInit {
   ngOnInit() {
   }
 
-  openPage(page) {
-
-    switch (true) {
-
-      case ((page.title == 'Logout')): {
-        console.log('Clicked Logout button');
-        // this.logout(); // call logout logic method
-      }
-          break;
-
-      case ((page.title == 'Pacientes')): {
-        console.log('Pacientes Share button');
-        // this.share(); call share logic method
-      }
-          break;
-
-      
+  buscarPacientes(){
+    console.log("chamou");
   }
-
-}
  
 
 }
